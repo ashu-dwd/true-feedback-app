@@ -17,6 +17,7 @@ export const authOptions: NextAuthOptions = {
         await dbConnect();
         try {
           const user = await UserModel.findOne({
+            //finding user by email or username
             $or: [
               { email: credentials.identifier },
               { username: credentials.identifier },
@@ -30,7 +31,7 @@ export const authOptions: NextAuthOptions = {
           }
           const isPasswordCorrect = await bcrypt.compare(
             credentials.password,
-            user.password
+            user.password,
           );
           if (!isPasswordCorrect) {
             throw new Error("Invalid Password");
